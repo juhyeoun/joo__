@@ -1,4 +1,4 @@
-package com.mrpizzahut.app.member.dao;
+package Daos;
 
 
 import java.util.Map;

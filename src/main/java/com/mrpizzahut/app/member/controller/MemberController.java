@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mrpizzahut.app.config.KakaoConfig;
-import com.mrpizzahut.app.coolsms.sendMessageService;
-import com.mrpizzahut.app.member.dao.IMemberDAO;
 import com.mrpizzahut.app.member.dto.MemberDTO;
 import com.mrpizzahut.app.member.service.IMemberService;
+
+import Daos.IMemberDAO;
 
 
 @Controller

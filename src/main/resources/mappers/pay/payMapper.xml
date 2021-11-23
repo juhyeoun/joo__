@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Daos.payDao">
+
+	<select id="findByPizzaName" parameterType="Map" resultType="Map">
+		select *from menu where MNAME=#{CMENU} 
+			<if test='CSIZE!=null'>
+			and MSIZE=#{CSIZE}
+			</if>
+			<if test='CEDGE!=null'>
+			 and EDGE=#{CEDGE}
+			</if>
+	</select>
+	<insert id="insert" parameterType="Map">
+	<if test="size!=null">
+			insert into orders values(order_sq.NEXTVAL,#{email},#{mchtTrdNo},#{itemName},#{count},0,null,
+			<if test="coupon.equals('empthy')">
+				null
+			</if>
+			<if test="!coupon.equals('empthy')">
+				#{coupon}
+			</if>
+			,#{method},#{price},#{created},0,null,#{size},#{edge})
+	</if>
+	<if test="size==null">
+		insert into orders values(order_sq.NEXTVAL,#{email},#{mchtTrdNo},#{itemName},#{count},0,null,
+		<if test="coupon.equals('empthy')">
+				null
+		</if>
+		<if test="!coupon.equals('empthy')">
+				#{coupon}
+		</if>
+		,#{method},#{price},#{created},0,null,null,null)
+		
+	</if>
+	</insert>
+	<insert id="insertCard" parameterType="Map">
+		insert into card values(card_sq.NEXTVAL,0,0,#{email},null,#{mchtTrdNo},null,#{method},#{price},null,null,#{created},0,null,#{phone},#{couponNames})
+	</insert>
+		<insert id="insertVbank" parameterType="Map">
+		insert into vbank values(vbank_sq.NEXTVAL,#{created},#{expireDate},null,null,null,#{mchtTrdNo},#{method},null,#{price},null,0,0,null,#{doneFlag},null,#{phone},#{email},#{couponNames},#{defaultFlag})
+	</insert>
+	<insert id="insertKpay" parameterType="Map">
+		insert into kpay values(kpay_sq.NEXTVAL,#{cid},#{created},#{mchtTrdNo},#{email},0,#{tid},#{price},#{doneFlag},null,0,null,#{phone},#{couponNames})
+	</insert>
+
+	<select id="cardFindByMchtTrdNo" parameterType="String" resultType="Map">
+		select * from card where CMCHTTRDNO=#{mchtTrdNo}
+	</select>
+	<update id="updateCardDonflag" parameterType="Map" >
+		update card set CFNNM=#{fnnm},CMCHTID=#{mchtid}, CDONEFLAG=#{doneFlag},CDONEDATE=#{doneDate},CTRDNO=#{trdNo} where CMCHTTRDNO=#{mchtTrdNo}
+	</update>
+	<update id="updateOrderDoneFlag" parameterType="Map">
+		update orders set ODONEFLAG=#{doneFlag},ODONEDATE=#{doneDate} where  OMCHTTRDNO=#{OMCHTTRDNO}  and OEMAIL=#{OEMAIL} and ONAME=#{ONAME} 
+		<if test="OSIZE!=null">
+			and OSIZE=#{OSIZE} 
+		</if>
+		<if test="OEDGE!=null">
+			and OEDGE=#{OEDGE}
+		</if>
+		
+	</update>
+	<update id="updateCardCancleFlag" parameterType="Map" >
+		update card set CCNCLORD=#{cnclord}, CCANCLEFLAG=#{cancleFlag},CCANCLEDATE=#{cancleDate} where CMCHTTRDNO=#{mchtTrdNo} and CEMAIL=#{email}
+	</update>
+	<update id="updateOrderCancleFlag" parameterType="Map" >
+		update orders set OCANCLEFLAG=#{cancleFlag},OCANCLEDATE=#{cancleDate} where OMCHTTRDNO=#{mchtTrdNo}
+	</update>
+	<select id="OrderFindByMchtTrdNo" parameterType="String" resultType="Map">
+		select * from orders where OMCHTTRDNO=#{mchtTrdNo}
+	</select>
+	<update id="orderUpdateCount" parameterType="Map">
+		update menu set MCOUNT=#{count} where MNAME=#{CMENU}
+		<if test="CSIZE!=null">
+			and MSIZE=#{CSIZE}
+		</if>
+			<if test="CEDGE">
+			 and EDGE=#{CEDGE}
+		</if>
+
+	</update>
+	<select id="kpayFindByyMchtTrdNo" parameterType="String" resultType="Map">
+		select *from kpay where KPARTNERORDERID=#{mchtTrdNo}
+	</select>
+	<update id="kpayUpdateDoneFlag" parameterType="Map">
+		update kpay set KDONEFLAG=#{doneFlag},KDONEDATE=#{doneDate} where KEMAIL=#{KEMAIL} and KPARTNERORDERID=#{KPARTNERORDERID}
+	</update>
+	<update id="kpayUpdateCancleFlag" parameterType="Map">
+		update kpay set KCANCLEFLAG=#{cancleFlag},KCANCLEDATE=#{cancleDate} where KPARTNERORDERID=#{mchtTrdNo} and KEMAIL=#{email}
+	</update>
+	<select id="vbankFindByMchtTrdNo" parameterType="String" resultType="Map">
+		select * from vbank where VMCHTTRDNO=#{mchtTrdNo}
+	</select>
+	<update id="vbankUpdateVtlAcntNo" parameterType="Map">
+		update vbank set VTLACNTNO=#{vtlAcntNo},VFNCD=#{fncd},VFNNM=#{fnnm},VMCHTID=#{mchtid},VTRDNO=#{trdNo} where VEMAIL=#{email} and VMCHTTRDNO=#{mchtTrdNo}
+	</update>
+	<update id="updateVbankDoneFlag" parameterType="Map">
+			update vbank set VDONEFLAG=#{doneFlag},VDONEDATE=#{doneDate} where VEMAIL=#{email} and VMCHTTRDNO=#{mchtTrdNo}
+	</update>
+	<update id="updateCardCancleTime" parameterType="Map">
+		update card set CCNCLORD=#{CCNCLORD},CTRDAMT=#{newPrice},CCANCLEDATE=#{cancleDate},CCANCLEFLAG=#{cancleFlag} where CMCHTTRDNO=#{CMCHTTRDNO}
+	</update>
+	<update id="updateKpayCancleTime" parameterType="Map">
+		update kpay set KPRICE=#{newPrice},KCANCLEFLAG=#{cancleFlag},KCANCLEDATE=#{cancleDate} where KPARTNERORDERID=#{KPARTNERORDERID}
+	</update>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Daos.productDao">
+	<insert id="insertProduct" parameterType="Map">
+		insert into menu values(#{ititle},#{stitle},#{title},#{img},#{size},#{price},#{edge},#{text},#{count},menu_sq.NEXTVAL)
+	</insert>
+	<select id="findAll" parameterType="Map" resultType="Map" >
+		select b.*,(select count(*) from menu)totalcount from(select ROW_NUMBER() OVER (ORDER BY MNUM desc)  num, a.* from menu a ) b where num between #{start} and #{end}
+	</select>
+	<select id="findAllByKey" parameterType="Map" resultType="Map" >
+	 select b.*,(select count(*) from menu where MNAME like '%'||#{keyword}||'%')totalcount from(select ROW_NUMBER() OVER (ORDER BY MNUM desc)  num, a.* from menu a  where a.MNAME like '%'||#{keyword}||'%' ) b where  num between #{start} and #{end}
+	
+	</select>
+	<select id="findByMnum" parameterType="_int" resultType="Map">
+		select * from menu where MNUM=#{mnum}
+	</select>
+	<update id="updateProduct" parameterType="Map">
+		update menu set ITITLE=#{ititle},STITLE=#{stitle},MNAME=#{title}
+		<if test='img!="empthy"'>
+			,IMG=#{img}
+		</if>
+		,MSIZE=#{size},PRICE=#{price},EDGE=#{edge},INTRO=#{text},MCOUNT=#{count} where MNUM=#{mnum}
+	</update>
+	<delete id="deleteProduct" parameterType="_int">
+		delete from menu where MNUM=#{mnum}
+	</delete>
+	<select id="findByCreatedInVbank" parameterType="Map" resultType="Map">
+		select o.oname,o.ocount,o.OSIZE,o.OEDGE,v.VNUM from (select VMCHTTRDNO,VNUM from vbank  where<![CDATA[ VEXPIREDATE <#{now} ]]>  and VCANCLEORD=#{defaultFlag} and VDONEFLAG=#{defaultFlag} and CHECKFLAG=#{defaultFlag}) v left join orders o on o.OMCHTTRDNO=v.VMCHTTRDNO
+	</select>
+	<select id="findBySizeAndEdgeAndNameInMenu" parameterType="Map" resultType="_int">
+		select MCOUNT from menu where MNAME=#{ONAME}
+		<if test="OSIZE!=null">
+		and MSIZE=#{OSIZE}
+		</if>
+		<if test="OEDGE!=null">
+			and EDGE=#{OEDGE}
+		</if>
+	</select>
+	<update id="updateCount" parameterType="Map">
+		update menu set MCOUNT=#{count} where MNAME=#{ONAME} 
+			<if test="OSIZE!=null">
+		and MSIZE=#{OSIZE}
+		</if>
+		<if test="OEDGE!=null">
+			and EDGE=#{OEDGE}
+		</if>
+	</update>
+	<update id="updateVbankToCheckDone" parameterType="Map">
+		update vbank set CHECKFLAG=#{doneFlag} where VNUM=#{VNUM}
+	</update>
+</mapper>

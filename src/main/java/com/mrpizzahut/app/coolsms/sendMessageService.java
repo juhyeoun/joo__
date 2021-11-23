@@ -4,9 +4,7 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.mrpizzahut.app.member.dao.IMemberDAO;
-import com.mrpizzahut.app.member.dto.MemberDTO;
-
+import Daos.IMemberDAO;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 

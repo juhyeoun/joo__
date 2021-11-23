@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Daos.couponDao">
+
+	<select id="findByCouponName" parameterType="String" resultType="Map">
+		select *from coupon where COUPONNAME=#{cname}
+	</select>
+	<update id="updateDone" parameterType="Map">
+		update coupon set COUSEDEMAIL=#{email},USEDFLAG=#{doneFlag},USEDDATE=#{doneDate},COMCHTTRDNO=#{mchtTrdNo} where COUPONNAME=#{name}
+	</update>
+	<insert id="insertCoupon" parameterType="Map">
+		 insert into coupon values(coupon_sq.NEXTVAL,null,#{title},0,null,null,#{action},#{price},#{created},#{expireDate})
+	</insert>
+	<select id="findAll" parameterType="Map" resultType="Map">
+			select b.*,(select count(*) from coupon)totalcount from(select ROW_NUMBER() OVER (ORDER BY CONUM desc)  num, a.* from coupon a ) b where num between #{start} and #{end}
+	</select>
+	<select id="findAllByKey" parameterType="Map" resultType="Map">
+			select b.*,(select count(*) from coupon where COUPONNAME like '%'||#{keyword}||'%')totalcount from(select ROW_NUMBER() OVER (ORDER BY CONUM desc)  num, a.* from coupon a  where a.COUPONNAME like '%'||#{keyword}||'%' ) b where num between #{start} and #{end}
+	</select>
+	<select id="findByConum" parameterType="_int" resultType="Map">
+		select * from coupon where CONUM=#{conum}
+	</select>
+	<update id="updateCoupon" parameterType="Map">
+		update coupon set COEXPIRED=#{expireDate},COUPONNAME=#{title},COKIND=#{action},COPRICE=#{price}
+		<if test="flag==1">
+			,USEDFLAG=0
+		</if>
+		where CONUM=#{conum}
+	</update>
+	<delete id="deleteByConum" parameterType="_int">
+		delete from coupon where CONUM=#{conum}
+	</delete>
+</mapper>

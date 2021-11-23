@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Daos.orderDao">
+	
+	<select id="findAll" parameterType="Map" resultType="Map">
+		select b.*,(select count(*) from orders)totalcount from(select ROW_NUMBER() OVER (ORDER BY ONUM desc)  num, a.* from orders a ) b where num between #{start} and #{end}
+	</select>
+	<select id="findByDate" parameterType="Map" resultType="Map">
+		select * from orders where OCREATED between #{start} and  #{end}
+		<if test="productName!=null">
+			and ONAME=#{productName}
+		</if>
+	</select>
+	<select id="getAllStitle" parameterType="Map">
+		select STITLE from menu;
+	</select>
+	<select id="findByOnum" parameterType="_int" resultType="Map">
+		select * from orders where ONUM=#{onum}
+	</select>
+	<select id="findByMchttrdnoAndOnumJoin" parameterType="Map" resultType="Map">
+		 select o.*,b.*,c.*,v.* from orders o left join kpay b on b.KPARTNERORDERID=o.OMCHTTRDNO left join card c on c.CMCHTTRDNO=o.OMCHTTRDNO  left join vbank v on v.VMCHTTRDNO=o.OMCHTTRDNO where o.OMCHTTRDNO=#{MCHTTRDNO} and o.onum=#{onum}
+	</select>
+	<update id="updateOrderCancleFlag" parameterType="Map" >
+		update orders set OCANCLEFLAG=#{cancleFlag},OCANCLEDATE=#{cancleDate} where ONUM=#{onum}
+	</update>
+	<select id="findByProductName" parameterType="Map" resultType="_int">
+		select MCOUNT from menu where MNAME=#{ONAME}
+		<if test="OSIZE!=null">
+			and MSIZE=#{OSIZE}
+		</if>
+		<if test="OEDGE!=null">
+			and EDGE=#{OEDGE}
+		</if>
+	</select>
+	<update id="updateProductCount" parameterType="Map">
+		update menu set MCOUNT=#{count} where MNAME=#{ONAME}
+		<if test="OSIZE!=null">
+			and MSIZE=#{OSIZE}
+		</if>
+		<if test="OEDGE!=null">
+			and EDGE=#{OEDGE}
+		</if>
+	</update>
+	<update id="updateCouponToDone" parameterType="Map">
+		update coupon set usedFlag=#{doneFlag} where COUPONNAME=#{couponName}
+	</update>
+	<select id="findAllByKey" parameterType="Map" resultType="Map">
+		 select b.*,(select count(*) from orders  where ONAME like '%'||#{productName}||'%' and OEMAIL=#{email})totalcount from(select ROW_NUMBER() OVER (ORDER BY ONUM desc)  num, a.* from orders a  where a.ONAME like '%'||#{productName}||'%' and OEMAIL=#{email} ) b where  num between #{start} and #{end}
+	</select>
+</mapper>

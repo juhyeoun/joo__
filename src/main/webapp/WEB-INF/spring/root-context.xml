@@ -27,6 +27,6 @@
 		<property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml" />	
 	</bean>
 	
-	<mybatis-spring:scan base-package="com.mrpizzahut.app.member.dao" />
+	<mybatis-spring:scan base-package="Daos" />
 	
 </beans>

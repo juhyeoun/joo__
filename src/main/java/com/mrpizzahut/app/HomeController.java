@@ -13,8 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.mrpizzahut.app.member.dao.IMemberDAO;
 import com.mrpizzahut.app.member.dto.MemberDTO;
+
+import Daos.IMemberDAO;
 
 /**
  * Handles requests for the application home page.

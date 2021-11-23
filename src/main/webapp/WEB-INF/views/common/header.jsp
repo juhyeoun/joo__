@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <link href="<c:url value="/resources/csslib.css" />" rel="stylesheet">
-<script src="<c:url value="/resources/js/jslib.js" />"></script>
+<script src="<c:url value="/resources/jslib.js" />"></script>
 <script src="<c:url value="/resources/js/member/join.js?ver=1" />"></script>
 <script src="<c:url value="/resources/js/member/login.js?ver=81223" />"></script>
 <script src="<c:url value="/resources/js/member/find.js?ver=11" />"></script>

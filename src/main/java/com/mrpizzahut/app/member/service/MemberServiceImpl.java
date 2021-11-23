@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.mrpizzahut.app.member.dao.IMemberDAO;
 import com.mrpizzahut.app.member.dto.MemberDTO;
+
+import Daos.IMemberDAO;
 
 
 @Service
