@@ -362,7 +362,8 @@ Map<String,Object>user=(Map<String,Object>)request.getAttribute("user");
 				<form id="paymentForm" name="paymentForm">
 					<input type="hidden" id="order_type" name="order_type" value="1"> <input type="hidden" id="branch_id" name="branch_id" value="108910">
 					<input type="hidden" id="branch_nm" name="branch_nm" value="압구정점"> <input type="hidden" id="reserv_time" name="reserv_time" value=""> <input type="hidden" id="reserv_time_text" name="reserv_time_text" value=""> <input type="hidden" id="order_memo" name="order_memo" value=""> <input type="hidden" id="naverpay_receipt" name="naverpay_receipt" value=""> <input type="hidden" id="list_price" name="list_price" value="27900"> <input type="hidden" id="disc_price" name="disc_price" value="0"> <input type="hidden" id="payment_price" name="payment_price" value="27900"> <input type="hidden" id="total_price" name="total_price" value="27,900"> <input type="hidden" id="mobileGift_desc_price" name="mobileGift_desc_price" value="0">
-					<input type="hidden" id="card_desc_price" name="card_desc_price" value="0"> <input type="hidden" id="promo_desc_price" name="promo_desc_price" value="0"> <input type="hidden" id="coupon_desc_price" name="coupon_desc_price" value="0"> <input type="hidden" id="eCoupon_desc_price" name="eCoupon_desc_price" value="0"> <input type="hidden" id="onlineGift_desc_price" name="onlineGift_desc_price" value=""> <input type="hidden" id="pay_amt" name="pay_amt" value="<%=totalPrice%>"> <input type="hidden" id="guest_flag" name="guest_flag" value="N"> <input type="hidden" id="guest_auth_flag" name="guest_auth_flag" value="N"> <input type="hidden" id="eCoupon_otherDisc" name="eCoupon_otherDisc" value=""> <input type="hidden" id="notSaleProductCount" name="notSaleProductCount" value="0"> <input type="hidden" id="beselo_flag" name="beselo_flag" value="">
+					<input type="hidden" id="card_desc_price" name="card_desc_price" value="0"> <input type="hidden" id="promo_desc_price" name="promo_desc_price" value="0"> <input type="hidden" id="
+					_desc_price" name="coupon_desc_price" value="0"> <input type="hidden" id="eCoupon_desc_price" name="eCoupon_desc_price" value="0"> <input type="hidden" id="onlineGift_desc_price" name="onlineGift_desc_price" value=""> <input type="hidden" id="pay_amt" name="pay_amt" value="<%=totalPrice%>"> <input type="hidden" id="guest_flag" name="guest_flag" value="N"> <input type="hidden" id="guest_auth_flag" name="guest_auth_flag" value="N"> <input type="hidden" id="eCoupon_otherDisc" name="eCoupon_otherDisc" value=""> <input type="hidden" id="notSaleProductCount" name="notSaleProductCount" value="0"> <input type="hidden" id="beselo_flag" name="beselo_flag" value="">
 					<!-- <input type="hidden" id="honey_flag" name="honey_flag" value=""/> -->
 					<input type="hidden" id="alarm_flag" name="alarm_flag" value=""> <input type="hidden" id="select_dc_opt" name="select_dc_opt" value="">
 					
@@ -412,7 +413,9 @@ Map<String,Object>user=(Map<String,Object>)request.getAttribute("user");
 										<tr>
 											<th scope="row"><i class="t_red normal">*</i> <label for="gift_from_nm">수령인</label></th>
 											<td class="t_left">
-											<input type="text" id="gift_from_nm" name="gift_from_nm" class="inp4" placeholder="수령인이름 입력" title="수령인이름 입력" maxlength="10" value="<%=user.get("NAME")%>">
+											<%-- <input type="text" id="gift_from_nm" name="gift_from_nm" class="inp4" placeholder="수령인이름 입력" title="수령인이름 입력" maxlength="10" value="<%=user.get("NAME")%>"> --%>
+											<input type="hidden" id="name" name="name" value="<%=user.get("NAME")%>">
+											<p><strong><%=user.get("NAME")%></strong></p>
 											</td>
 										</tr>
 										<!-- /배달주문, 포장주문 수령인 정보 -->
@@ -424,9 +427,11 @@ Map<String,Object>user=(Map<String,Object>)request.getAttribute("user");
 										<!-- 배달주문, 포장주문 연락처 -->
 										<tr>
 											<th scope="row"><i class="t_red normal">*</i> <label for="view_delivery_phone1">연락처</label></th>
-											<td class="t_left"><input type="text" id="view_delivery_phone1" name="view_delivery_phone1" value="<%=user.get("MOBILE1") %>" class="inp6" onkeyup="chkNum(this);"  title="연락처 앞자리 입력"> 
+											<td class="t_left"><%-- <input type="text" id="view_delivery_phone1" name="view_delivery_phone1" value="<%=user.get("MOBILE1") %>" class="inp6" onkeyup="chkNum(this);"  title="연락처 앞자리 입력"> 
 											<input type="text" id="view_delivery_phone2" name="view_delivery_phone2"  value="<%=user.get("MOBILE2") %>" class="inp6" onkeyup="chkNum(this);" maxlength="4" title="연락처 중간자리 입력"> 
-											<input type="text" id="view_delivery_phone3" name="view_delivery_phone3"  value="<%=user.get("MOBILE3") %>" class="inp6" onkeyup="chkNum(this);" maxlength="4" title="연락처 뒷자리 입력"> 
+											<input type="text" id="view_delivery_phone3" name="view_delivery_phone3"  value="<%=user.get("MOBILE3") %>" class="inp6" onkeyup="chkNum(this);" maxlength="4" title="연락처 뒷자리 입력">  --%>
+											<input type="hidden" id="mobile" name="mobile" value="<%=user.get("mobile")%>">
+											<p><%=user.get("mobile")%></p>
 											<label class="ml16">
 											</label></td>
 										</tr>
@@ -446,7 +451,7 @@ Map<String,Object>user=(Map<String,Object>)request.getAttribute("user");
 											<th scope="row"><i class="t_red normal">*</i> 주소</th>
 											<td class="t_left">
 												<div>
-													<span class="line30"><%=user.get("ADDR") %></span>
+													<span class="line30"><%=user.get("addr")%></span>
 												</div>
 											</td>
 										</tr>
@@ -504,30 +509,7 @@ Map<String,Object>user=(Map<String,Object>)request.getAttribute("user");
 								</tbody>
 							</table>
 
-							<h2 class="cont_tit tit2 mt60">
-								2.할인수단
-								
-							</h2>
-							<p class="pt5">
-								
-							</p>
-							<ul class="tabmenu2 mt10 tabMotion">
-								<li class="w100"><span>쿠폰입력</span></li>
-								
-							</ul>
-							<span>1.여러장이라면 ,로 나누어서 입력해주세요</span>
-							<br>
-							<span>2.쿠폰 장수는 각 판수 보다 많을 수 없습니다</span>
-							<span>3.테스트 쿠폰들</span>
-							<br>
-							<span>test = 5프로, </span>
-							<span>test2 = 10프로,</span>
-							<span>test3 =  40프로, </span>
-							<span>test4 =  25프로, </span>
-							<br>
-							<br>
-							<input type="hidden" id="sizeup_flag">
-
+							
 
 							<script type="text/javascript">
 							//임시스크립트
@@ -632,8 +614,8 @@ Map<String,Object>user=(Map<String,Object>)request.getAttribute("user");
 							
 						<%for(Map<String,Object>map:maps){
 						%>		
-						<%=map.get("CMENU") %>	
-						<input type="text" class="coupon"  placeholder="쿠폰번호를 입력해주세요">
+					<%-- 	<%=map.get("CMENU") %>	 --%>
+						<input type="hidden" class="coupon"  placeholder="쿠폰번호를 입력해주세요">
 						<br>
 				
 						<%}%>		

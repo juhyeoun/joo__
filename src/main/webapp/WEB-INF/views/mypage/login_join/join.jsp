@@ -169,7 +169,7 @@
 							<input type="text" class="inp3 ml6" id="cust_hpost2" name="cust_hpost2" title="우편번호 뒷자리 입력" readonly />-->
 							<input type="text" class="inp4 inp_use" id="cust_haddr" name="cust_haddr" title="회원 기본주소" readonly="" >
 							<a class="button ml6 pop_open zip_open" onclick="daumPost()">주소찾기<span class="gt">&gt;</span></a>
-							<input type="button" onclick="test()" value="test">
+							
 							
 						</p>
 						<p class="mt10">

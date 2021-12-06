@@ -12,7 +12,7 @@ public class sendMessageService {
 	@Autowired IMemberDAO dao;
 	 private static final String apikey="NCSGOMUMFKHSINXI";//키받고 교체
 	 private static final  String apiSecret="UVC0HVLS1HNX3PUQ7U6C0HFX0ATC5FXQ";//시크릿키받고교체
-	 private static final String companyPhone="01053719495";// 김준영  계정이여서 김준영 번호로만 발송가능 번호인증후 주현님번호로 교체
+	 private static final String companyPhone="01053719495";
     
 	 /**
 	  * 문자전송

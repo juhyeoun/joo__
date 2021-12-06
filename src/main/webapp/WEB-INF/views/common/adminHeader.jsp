@@ -14,6 +14,7 @@ int month2=LocalDateTime.now().getMonthValue();
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="<c:url value="/resources/jslib.js" />"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
@@ -26,17 +27,20 @@ int month2=LocalDateTime.now().getMonthValue();
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-       <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/app/admin/event?scope=쿠폰등록">쿠폰(이벤트)</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/app/admin/menu?scope=메뉴등록">메뉴설정</a>
-        </li>
+    <!--    <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/app/admin/insertEvent">이벤트 등록</a>
+        </li> -->
+    <!--     <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/app/admin/adminMenu">메뉴설정</a>
+        </li> -->
          <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/app/admin/order?detail=all&page=1&keyword=">주문조회</a>
+          <a class="nav-link active" aria-current="page" href="/app/admin/showOrder2">주문조회</a>
         </li>
-         <li class="nav-item">
+        <%--  <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/app/admin/sales?month=<%=month2%>&year=<%=year %>&productName=">매출조회</a>
+        </li> --%>
+         <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/app/admin/memberManage">회원관리</a>
         </li>
        <!--  <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

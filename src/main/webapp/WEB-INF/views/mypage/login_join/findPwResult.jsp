@@ -38,7 +38,7 @@
 				<h2 class="cont_tit tit2 mt40">비밀번호 찾기 완료</h2>
 
 				<div class="boxStyle3 mt10 t_center">
-					<p class="top f14"><img src="//cdn.mrpizza.co.kr/2014_resources/images/member/img_find.png" alt="비밀번호 찾기 완료 아이콘">이메일로 임시비밀번호가 발송 되었습니다.</p>
+					<p class="top f14">이메일로 임시비밀번호가 발송 되었습니다.</p>
 					<div>
 						<p class="p20">
 							<a href="login" class="button red w160 h40">로그인하기 <span class="gt">&gt;</span></a>

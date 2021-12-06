@@ -15,15 +15,28 @@
 			
 	<aside id="lnb">
 		<h1>마이페이지</h1>
-		<ul>
-			<li class="active"><a href="myMipi" title="마이페이지">${user.name }님의 미피</a></li>
-			<li><a href="/mypage/orderList" title="내주문내역">내주문내역</a></li>
-			<li><a href="/mypage/myCoupon" title="내쿠폰">내쿠폰</a></li>
-			<li><a href="/mypage/myQnaList" title="내문의내역">내문의내역</a></li>
-			<li><a href="myInfo_step1" title="정보수정">정보수정</a></li>
-			<li><a href="/order/myCart" title="장바구니">장바구니</a></li>
-			<li><a href="drop_member" title="회원탈퇴">회원탈퇴</a></li>
-		</ul>
+		<c:choose>
+			<c:when test="${user.email.equals('admin@care.com') }">
+				<ul>
+					<li class="active"><a href="myMipi" title="마이페이지">${user.name }님의 미피</a></li>
+					<!-- <li><a href="admin/home" title="내주문내역">관리자 페이지</a></li> -->
+					<li><a href="javascript:void(window.open('admin/home', '관리자페이지'))">관리자 페이지</a></li>
+				</ul>
+			</c:when>
+			<c:otherwise>
+			<ul>
+				<li class="active"><a href="myMipi" title="마이페이지">${user.name }님의 미피</a></li>
+				<li><a href="orderList" title="내주문내역">내주문내역</a></li>
+				<li><a href="#" title="내쿠폰">내쿠폰</a></li>
+				<li><a href="myQnaList" title="내문의내역">내문의내역</a></li>
+				<li><a href="myInfo_step1" title="정보수정">정보수정</a></li>
+				<li><a href="/app/buket" title="장바구니">장바구니</a></li>
+				<li><a href="drop_member" title="회원탈퇴">회원탈퇴</a></li>
+			</ul>
+			</c:otherwise>
+		</c:choose>
+		
+	
 	</aside>
 			<!-- //lnb -->
 

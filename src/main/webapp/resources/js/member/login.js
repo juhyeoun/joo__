@@ -296,6 +296,7 @@ function updateInfo(){
 		alert('비밀번호를 입력하세요')
 		return;
 	}
+	alert('정보수정이 완료되었습니다.');
 	document.getElementById('f').submit();
 }
 	

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Daos.MenuDao">
+   <select id="findAll" resultType="Map">
+      select * from menu
+   </select>
+   <select id="findByLtitle" parameterType="String" resultType="Map">
+      select distinct MNAME,IMG,STITLE from menu where LTITLE=#{ltitle} 
+   </select>
+   <select id="findByLtitleAndStitle" parameterType="Map" resultType="Map">
+      select * from menu where STITLE=#{stitle} and LTITLE=#{ltitle}
+   </select>
+   <select id="findByStitle" parameterType="String" resultType="Map">
+      select distinct MNAME,IMG,STITLE from menu where STITLE=#{stitle}
+   </select>
+   <select id="findByProductName" parameterType="String" resultType="Map">
+      select  * from menu where MNAME=#{productName} order by MSIZE desc
+   </select>
+   <select id="findR" parameterType="String" resultType="Map">
+      select distinct EDGE, PRICE,MSIZE from menu where MNAME=#{productName} and MSIZE='R'
+   </select>
+   <select id="findL" parameterType="String" resultType="Map">
+      select distinct EDGE, PRICE ,MSIZE from menu where MNAME=#{productName} and MSIZE='L'
+   </select>
+
+</mapper>

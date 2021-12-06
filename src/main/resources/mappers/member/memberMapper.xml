@@ -24,7 +24,11 @@
 		WHERE  email=#{email}
 	</update>
 	
-	
+	<update id="adminUpdateMember" parameterType="com.mrpizzahut.app.member.dto.MemberDTO">
+		UPDATE member
+		SET	   email=#{email}, mobile=#{mobile}, addr=#{addr}
+		WHERE  mnum=#{mnum}
+	</update>
 	
 	<select id="findEmail" parameterType="com.mrpizzahut.app.member.dto.MemberDTO" resultType="com.mrpizzahut.app.member.dto.MemberDTO">
 		SELECT *
@@ -39,6 +43,18 @@
 		FROM   member 
 		WHERE  1=1
 		AND	   mobile=#{mobile}
+	</select>
+	<select id="findAdmin" parameterType="String"   resultType="com.mrpizzahut.app.member.dto.MemberDTO">
+		SELECT *
+		FROM   member 
+		WHERE  1=1
+		AND	   email=#{email}
+	</select>
+	<select id="memberName" parameterType="String"   resultType="com.mrpizzahut.app.member.dto.MemberDTO">
+		SELECT *
+		FROM   member 
+		WHERE  1=1
+		AND	   name=#{name}
 	</select>
 	
 	<select id="findPw" parameterType="com.mrpizzahut.app.member.dto.MemberDTO" resultType="com.mrpizzahut.app.member.dto.MemberDTO">
@@ -61,5 +77,54 @@
 		FROM   member 
 		WHERE  email=#{email}
 	</delete>
+	
+	<select id="list" resultType="com.mrpizzahut.app.member.dto.MemberDTO">
+		SELECT * 
+		FROM   member
+	</select>
+	
+	<select id="countBoard" resultType="int">
+		SELECT COUNT(*)
+		FROM   member
+	</select>
+		<!-- SELECT *
+		FROM (SELECT ROWNUM RN, A.*
+			FROM (SELECT * 
+				  FROM   member
+				  ORDER  BY
+				  mnum   DESC) A
+		)
+		WHERE RN
+		BETWEEN #{start}
+		AND		#{end} -->
+	<select id="selectBoard" resultType="com.mrpizzahut.app.member.dto.MemberDTO">
+	select * from (
+			select ROWNUM RN, A.* from (
+				SELECT * FROM member 
+				ORDER BY mnum asc 
+			)A
+		)
+		where RN between #{start} and #{end}
+	</select>
+	
+	<select id="selectList" parameterType="com.mrpizzahut.app.member.dto.MemberDTO" resultType="com.mrpizzahut.app.member.dto.MemberDTO">
+		SELECT * 
+		FROM   member
+		WHERE  1=1
+		AND    name=#{name}
+	</select>
+	
+	<select id="orderList" resultType="com.mrpizzahut.app.order.OrderDTO">
+		SELECT *
+		FROM   orders
+		
+	</select>
+	
+	<select id="selectOrderList" parameterType="com.mrpizzahut.app.order.OrderDTO" resultType="com.mrpizzahut.app.order.OrderDTO">
+		SELECT *
+		FROM   orders
+		WHERE  1=1
+		AND	   omchttrdno=#{omchttrdno}
+	</select>
 	
 </mapper>

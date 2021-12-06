@@ -198,7 +198,7 @@ public class productService {
 		System.out.println("getPayInfor");
 		System.out.println("결제요청정보 "+tryBuyDto.toString());
 		String email=utillService.getEmail(request);
-		if(utillService.checkNull(tryBuyDto.getMobile1())||utillService.checkNull(tryBuyDto.getMobile2())||utillService.checkNull(tryBuyDto.getMobile3())) {
+		if(utillService.checkNull(tryBuyDto.getMobile())) {
 			throw utillService.makeRuntimeEX("핸드폰 번호를 확인해주세요", "getPayInfor");
 		}
 		String kind=tryBuyDto.getKind();
@@ -228,7 +228,7 @@ public class productService {
 			
 			System.out.println("장바구니 "+carts.toString());
 	        int itemArraySize=carts.size();
-	        String[] coupons=tryBuyDto.getcoupon().toString().split("/");
+	        String[] coupons=tryBuyDto.getCoupon().toString().split("/");
 	        String itemNames="";
 	        int onlyCash=0;
 	        int totalCash=0;
@@ -307,7 +307,7 @@ public class productService {
             map.put("expireDate", getVbankExpriedDate());
         }
         map.put("couponNames", couponNames);
-        map.put("phone", tryBuyDto.getMobile1()+tryBuyDto.getMobile2()+tryBuyDto.getMobile3());
+        map.put("phone", tryBuyDto.getMobile());
         return map;
     }
     private String getVbankExpriedDate() {

@@ -3,7 +3,9 @@ package com.mrpizzahut.app.member.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -14,14 +16,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.mrpizzahut.app.buket.CartDto;
 import com.mrpizzahut.app.config.KakaoConfig;
 import com.mrpizzahut.app.member.dto.MemberDTO;
+import com.mrpizzahut.app.member.dto.PagingVO;
+import com.mrpizzahut.app.member.dto.QnaDTO;
 import com.mrpizzahut.app.member.service.IMemberService;
+import com.mrpizzahut.app.member.service.MemberServiceImpl;
 
 import Daos.IMemberDAO;
 
@@ -45,23 +54,6 @@ public class MemberController {
 		return map;
 	}
 	
-//	@RequestMapping(value = "/makeNewPw", produces = "application/json; charset=utf-8")
-//	@ResponseBody
-//	public MemberDTO makeNewPw(@RequestBody MemberDTO member) {
-//		System.out.println("pw controller");
-//		System.out.println(member);
-//		MemberDTO result = service.makeNewPw(member);
-//	}
-	
-//	@RequestMapping(value = "/chkOldPw", produces = "application/json; charset=utf-8")
-//	@ResponseBody
-//	public MemberDTO chkOldPw(@RequestBody MemberDTO member) {
-//		System.out.println("pw controller");
-//		System.out.println(member);
-//		MemberDTO result = service.check(member);
-//		return result;
-//	}
-
 	
 	@RequestMapping(value = "/loginMember", produces = "application/json; charset=utf-8", method=RequestMethod.POST)
 	@ResponseBody
@@ -72,6 +64,8 @@ public class MemberController {
 		return result;
 	}
 	
+	
+	
 	@RequestMapping(value = "/check", produces = "application/json; charset=utf-8", method=RequestMethod.POST)
 	@ResponseBody
 	public MemberDTO check(@RequestBody MemberDTO member) {
@@ -79,6 +73,44 @@ public class MemberController {
 		System.out.println(member);
 		MemberDTO result = service.check(member);
 		return result;
+	}
+	
+	@RequestMapping(value = "/admin/searchKeywordProc", produces = "application/json; charset=utf-8", method=RequestMethod.POST)
+	@ResponseBody
+	public List<MemberDTO> searchKeywordProc(@RequestBody MemberDTO member, Model model) {
+		
+		System.out.println("컨트롤러?");
+		System.out.println(member);
+		MemberDTO m = new MemberDTO();
+		m.setName(member.getName());
+		return service.searchKeywordProc(m);
+	}
+	
+	@GetMapping("admin/memberManage")
+	public String boardList(PagingVO vo, ModelAndView mv, Model model,
+							@RequestParam(value = "nowPage", required = false)String nowPage,
+							@RequestParam(value = "cntPerPage", required = false)String cntPerPage) {
+		System.out.println("here come?");
+		int total = service.countBoard();
+		System.out.println(total);
+		if(nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		}else if(nowPage == null) {
+			nowPage = "1";
+		}else if(cntPerPage == null) {
+			cntPerPage = "5";
+		}
+		System.out.println(nowPage + cntPerPage);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		System.out.println(vo);
+		model.addAttribute("paging", vo);
+		ArrayList<MemberDTO> list = service.list();
+//		List<MemberDTO> list2 = service.selectBoard(vo);
+//		model.addAttribute("list", list);
+		model.addAttribute("list", service.selectBoard(vo));
+		
+		return "admin/memberManage";
 	}
 	
 	@RequestMapping(value = "/check_delete", produces = "application/json; charset=utf-8", method=RequestMethod.POST)
@@ -159,6 +191,22 @@ public class MemberController {
 			return "/mypage/login_join/join";
 		}
 	}
+	@RequestMapping(value = "/qnaProc")
+	public String qnaProc(QnaDTO qna, Model model) {
+		System.out.println("qna컨트롤러?");
+		System.out.println(qna);
+		int result = service.qnaProc(qna);
+//		if(result == 0) {
+//			return "/mypage/login_join/join";
+//		}else if(result == 1) {
+//			model.addAttribute("name", member.getName());
+//			model.addAttribute("id", member.getEmail());
+//			return "/mypage/login_join/joinSuccess";
+//		}else {
+//			return "/mypage/login_join/join";
+//		}
+		return "sad";
+	}
 	
 	@RequestMapping(value = "/updateProc")
 	public String updateProc(MemberDTO member, Model model) {
@@ -189,12 +237,26 @@ public class MemberController {
 	
 	@RequestMapping(value = "deleteProc")
 	public String deleteProc(MemberDTO member) {
+		System.out.println("도착");
 		boolean b = service.deleteProc(member);
+//		boolean b = true;
 		if(b == false) {
 			return "home";
 		}else {
 			return "home";
 		}	
 	}
+	
+//	@RequestMapping(value = "/bucketCount", produces = "application/json; charset=utf-8")
+//	@ResponseBody
+//	public CartDto bucketCount(@RequestBody CartDto cart) {
+//		System.out.println("cart controller");
+//		System.out.println(cart);
+//		CartDto result = service.bucketCount(cart);
+//		return result;
+//	}
+	
+
+
 		
 }

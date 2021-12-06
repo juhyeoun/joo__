@@ -67,7 +67,7 @@ public class utillService {
 		System.out.println("checkRole");
 		String role=(String)request.getSession().getAttribute("role");
 		System.out.println("이계정의 권한은 "+role);
-		if(role.equals("admin")) {
+		if(role.equals("관리자")) {
 			return true;
 		}
 		return false;

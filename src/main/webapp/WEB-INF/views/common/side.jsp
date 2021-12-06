@@ -4,7 +4,22 @@
 <%
  int buyCount=2;
 %>
+<script>
+/* $(function(){
 
+    var sessionUser = '${user}';
+    if(sessionUser != ''){
+       //세션만료 시간 체크
+       initTime();
+       setTimer();
+       
+       //알림 개수 체크
+       var storeInstructorNo = $("#storeInstructorNo").val();
+       var param = {storeInstructorNo : storeInstructorNo};
+       AJAX.post("/common/selAlarmCnt", param, alarmCnt, null, null, null );
+    }
+}); */
+</script>
 <section class="quick_wrap">
 	<ul class="quick_menu">
 		
@@ -12,9 +27,11 @@
 			<c:choose>
 		         <c:when test = "${email!=null}">
 		           		<li><a href="logout" class="quick_tit "><i><img src="//cdn.mrpizza.co.kr/2014_resources/images/common/ico_quick_01.png" alt="로그아웃"></i>로그아웃</a></li>
+		           		<li><a href="#" class="quick_tit"><i><img src="//cdn.mrpizza.co.kr/2014_resources/images/common/ico_quick_02.png" alt="회원가입"></i>회원가입</a></li>
 		         </c:when>
 		         <c:otherwise>
 						<li><a href="login" class="quick_tit "><i><img src="//cdn.mrpizza.co.kr/2014_resources/images/common/ico_quick_01.png" alt="로그아웃"></i>로그인</a></li>
+						<li><a href="join" class="quick_tit"><i><img src="//cdn.mrpizza.co.kr/2014_resources/images/common/ico_quick_02.png" alt="회원가입"></i>회원가입</a></li>
 		         </c:otherwise>
      		 </c:choose>
 			
@@ -23,10 +40,13 @@
 			
 					
 		<!-- <li><a href="/login_join/login" class="quick_tit"><i><img src="//cdn.mrpizza.co.kr/2014_resources/images/common/ico_quick_01.png" alt="로그인" /></i>로그인</a></li> -->
-		<li><a href="/login_join/join" class="quick_tit"><i><img src="//cdn.mrpizza.co.kr/2014_resources/images/common/ico_quick_02.png" alt="회원가입"></i>회원가입</a></li>
+		
+		
+		<!-- <li><a href="/login_join/join" class="quick_tit"><i><img src="//cdn.mrpizza.co.kr/2014_resources/images/common/ico_quick_02.png" alt="회원가입"></i>회원가입</a></li> -->
+		
 		<li class="inBox">
 			<a href="/app/buket" onclick="javascript:cartOpen();" class="quick_tit quick_cart" title="장바구니">
-				<i><img src="//cdn.mrpizza.co.kr/2014_resources/images/common/ico_quick_03.png" alt="장바구니"></i>장바구니<em class="cart_num"><%=buyCount %></em>
+				<i><img src="//cdn.mrpizza.co.kr/2014_resources/images/common/ico_quick_03.png" alt="장바구니"></i>장바구니
 			</a>
 			<section class="quick_box p0">
 				<ul class="q_rdoList">

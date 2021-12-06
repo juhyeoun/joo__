@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Daos.productDao">
 	<insert id="insertProduct" parameterType="Map">
-		insert into menu values(#{ititle},#{stitle},#{title},#{img},#{size},#{price},#{edge},#{text},#{count},menu_sq.NEXTVAL)
+		insert into menu values(#{ltitle},#{stitle},#{title},#{img},#{size},#{price},#{edge},#{text},#{count},menu_sq.NEXTVAL)
 	</insert>
 	<select id="findAll" parameterType="Map" resultType="Map" >
 		select b.*,(select count(*) from menu)totalcount from(select ROW_NUMBER() OVER (ORDER BY MNUM desc)  num, a.* from menu a ) b where num between #{start} and #{end}
@@ -12,17 +12,17 @@
 	
 	</select>
 	<select id="findByMnum" parameterType="_int" resultType="Map">
-		select * from menu where MNUM=#{mnum}
+		select * from menu where mno=#{mno}
 	</select>
 	<update id="updateProduct" parameterType="Map">
-		update menu set ITITLE=#{ititle},STITLE=#{stitle},MNAME=#{title}
+		update menu set LTITLE=#{ltitle},STITLE=#{stitle},MNAME=#{title}
 		<if test='img!="empthy"'>
 			,IMG=#{img}
 		</if>
-		,MSIZE=#{size},PRICE=#{price},EDGE=#{edge},INTRO=#{text},MCOUNT=#{count} where MNUM=#{mnum}
+		,MSIZE=#{size},PRICE=#{price},EDGE=#{edge},INTRO=#{text},MCOUNT=#{count} where mno=#{mno}
 	</update>
 	<delete id="deleteProduct" parameterType="_int">
-		delete from menu where MNUM=#{mnum}
+		delete from menu where mno=#{mno}
 	</delete>
 	<select id="findByCreatedInVbank" parameterType="Map" resultType="Map">
 		select o.oname,o.ocount,o.OSIZE,o.OEDGE,v.VNUM from (select VMCHTTRDNO,VNUM from vbank  where<![CDATA[ VEXPIREDATE <#{now} ]]>  and VCANCLEORD=#{defaultFlag} and VDONEFLAG=#{defaultFlag} and CHECKFLAG=#{defaultFlag}) v left join orders o on o.OMCHTTRDNO=v.VMCHTTRDNO

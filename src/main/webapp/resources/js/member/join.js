@@ -248,7 +248,6 @@ function joinMrpizza(){
 	}
 	
 	document.getElementById('f').submit();
-	    
-	    
-	
 }
+
+

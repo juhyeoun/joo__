@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +23,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.mrpizzahut.app.buket.buketService;
 import com.mrpizzahut.app.buket.deleteCartDto;
 import com.mrpizzahut.app.file.fileService;
+import com.mrpizzahut.app.member.dto.MemberDTO;
+import com.mrpizzahut.app.member.service.IMemberService;
 import com.mrpizzahut.app.order.orderService;
 import com.mrpizzahut.app.pay.productService;
 import com.mrpizzahut.app.pay.tryBuyDto;
@@ -46,7 +49,13 @@ public class restController {
 	private couponService couponService;
 	@Autowired
 	private orderService orderService;
-	
+
+	   @RequestMapping(value = "/cart",method = RequestMethod.POST)
+	   public JSONObject tryInsertCart(@RequestBody JSONObject jsonObject,HttpServletRequest request,HttpServletResponse response) {
+	      System.out.println("tryInsertCart");
+	      return buketService.insertCart(jsonObject, request);
+	      
+	   }
 	
 	@RequestMapping(value = "/changeCount", method = RequestMethod.PUT)
 	public JSONObject changeCount(@RequestBody JSONObject jsonObject,HttpServletRequest request,HttpServletResponse response) {
@@ -61,6 +70,7 @@ public class restController {
 	@RequestMapping(value = "/tryOrder", method = RequestMethod.POST)
 	public JSONObject tryOrder(@RequestBody tryBuyDto tryBuyDto,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("tryOrder rest");
+		System.out.println("tryorder");
 		return productService.getPayInfor(tryBuyDto,request);
 	}
 	@RequestMapping(value = "/settle/callback", method = RequestMethod.POST)
@@ -105,6 +115,7 @@ public class restController {
 		if(!utillService.checkRole(request)) {
 			return utillService.makeJson(false, "관리자 계정이아닙니다");
 		}
+		System.out.println(request);
 		return couponService.inserCoupon(request, response);
 	}
 	@RequestMapping(value = "/admin/coupon/**",method = RequestMethod.DELETE)
@@ -115,6 +126,9 @@ public class restController {
 		}
 		return couponService.deleteCoupon(request);
 	}
+	
+
+	
 	@RequestMapping(value = "/cancleOrder",method = RequestMethod.PUT)
 	public JSONObject tryCancleOrder(@RequestBody JSONObject jsonObject,HttpServletRequest request,HttpServletResponse response) {
 		System.out.println("tryCancleOrder");

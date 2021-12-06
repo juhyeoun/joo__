@@ -87,6 +87,7 @@ public class couponService {
 		String action=request.getParameter("action");
 		String price=request.getParameter("price");
 		Timestamp expireDate=confrimExpriDate(request.getParameter("expireDate"));
+		System.out.println(expireDate);
 		confrimActionAndPriceAndTitle(action, price,title);
 		Map<String, Object>coupon=new HashMap<String, Object>();
 		coupon.put("title", title);
@@ -146,13 +147,14 @@ public class couponService {
 	}
 	private Timestamp confrimExpriDate(String sExpireDate) {
 		System.out.println("confrimExpriDate");
-		if(utillService.checkNull(sExpireDate)) {
-			throw utillService.makeRuntimeEX("쿠폰 종료 기간을 설정해주세요", "confrimExpriDate");
-		}
+		System.out.println(sExpireDate);
+//		if(utillService.checkNull(sExpireDate)) {
+//			throw utillService.makeRuntimeEX("쿠폰 종료 기간을 설정해주세요", "confrimExpriDate");
+//		}
 		Timestamp expireDate=Timestamp.valueOf(sExpireDate.replace("T", " ")+":00");
-		if(LocalDateTime.now().isAfter(expireDate.toLocalDateTime())) {
-			throw utillService.makeRuntimeEX("쿠폰 종료일자는 오늘 보다 커야합니다", "confrimExpriDate");
-		}
+//		if(LocalDateTime.now().isAfter(expireDate.toLocalDateTime())) {
+//			throw utillService.makeRuntimeEX("쿠폰 종료일자는 오늘 보다 커야합니다", "confrimExpriDate");
+//		}
 		System.out.println("쿠폰 기간 유효성 통과");
 		return expireDate;
 	}

@@ -1,6 +1,9 @@
 package com.mrpizzahut.app;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mrpizzahut.app.member.dto.MemberDTO;
+import com.mrpizzahut.app.member.service.IMemberService;
+import com.mrpizzahut.app.member.service.MemberServiceImpl;
+import com.mrpizzahut.app.order.OrderDTO;
 
+import Daos.EventDAO;
 import Daos.IMemberDAO;
 
 /**
@@ -24,6 +31,10 @@ import Daos.IMemberDAO;
 public class HomeController {
 	@Autowired
 	private IMemberDAO dao;
+	@Autowired
+	private IMemberService service;
+	@Autowired
+	private EventDAO eventDao;
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -86,6 +97,7 @@ public class HomeController {
 	public String myMipi(HttpServletRequest request) {
 		try {
 			String email=request.getSession().getAttribute("email").toString();
+			System.out.println(email + "이거 뭐라고찍히죠?");
 			if(email==null) {
 				throw new RuntimeException("비로그인 사용자");
 			}
@@ -112,12 +124,43 @@ public class HomeController {
 	public String drop_member2() {
 		return "/mypage/afterLogin/drop_member2";
 	}
-	
-	@RequestMapping(value = "/admin/home")
-	public String admin2Home() {
-		return "/admin/adminHome";
+	@RequestMapping(value = "/myQnaList")
+	public String myQnaList() {
+		return "/mypage/afterLogin/myQnaList";
 	}
+	@RequestMapping(value = "/qnaplz")
+	public String qnaplz() {
+		return "/mypage/afterLogin/qnaplz";
+	}
+	@RequestMapping(value = "/orderList")
+	public String orderList(HttpServletRequest request,HttpServletResponse response,Model model, MemberDTO member) {
+		
+			
+			ArrayList<OrderDTO> orderList = service.orderList();
+			model.addAttribute("orderList", orderList);
+			System.out.println(orderList);
+			return "/orderPages/orderList";
+		} 
 	
+	@RequestMapping(value = "/event_on")
+	   public String event_on(HttpServletRequest request,HttpServletResponse response,Model model) {
+	      System.out.println("event_on");
+	      String eTitle = request.getParameter("eTitle");
+	      System.out.println(eTitle);
+	      List<Map<String, Object>>eventList=eventDao.showList();
+	      System.out.println(eventList.toString());
+	      model.addAttribute("eventList", eventList);
+	      return "/event/event_on";
+	   }
+	   @RequestMapping(value = "/event_view")
+	   public String event_view(HttpServletRequest request,HttpServletResponse response,Model model) {
+	      System.out.println("event_view");
+	      String eTitle = request.getParameter("eTitle");
+	      List<Map<String, Object>>event=eventDao.selectOne(eTitle);
+	      System.out.println(event.toString());
+	      model.addAttribute("event", event);
+	      return "/event/event_view";
+	   }
 	
 	
 	

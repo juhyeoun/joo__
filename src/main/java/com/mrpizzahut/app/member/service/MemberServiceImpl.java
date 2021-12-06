@@ -1,20 +1,32 @@
 package com.mrpizzahut.app.member.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import com.mrpizzahut.app.buket.CartDto;
 import com.mrpizzahut.app.member.dto.MemberDTO;
+import com.mrpizzahut.app.member.dto.PagingVO;
+import com.mrpizzahut.app.member.dto.QnaDTO;
+import com.mrpizzahut.app.order.OrderDTO;
 
 import Daos.IMemberDAO;
+import Daos.buketDao;
 
 
 @Service
 public class MemberServiceImpl implements IMemberService{
 	
 	@Autowired IMemberDAO dao;
+	@Autowired buketDao cartDao;
 	@Autowired HttpSession session;
 	
 	@Override
@@ -44,6 +56,15 @@ public class MemberServiceImpl implements IMemberService{
 	}
 	
 	@Override
+	public int qnaProc(QnaDTO qna) {
+		System.out.println("qna 서비스");
+		System.out.println(qna);
+		
+		return 0;
+	}
+
+	
+	@Override
 	public int updateProc(MemberDTO member) {
 		String email = (String)session.getAttribute("email");
 		member.setEmail(email);
@@ -54,6 +75,20 @@ public class MemberServiceImpl implements IMemberService{
 		String securePw = encoder.encode(member.getPw());
 		member.setPw(securePw);
 		if(dao.updateProc(member) == 1) {		
+			return 1;
+		}else {
+			return 2;
+		}
+	}
+	
+	@Override
+	public int adminUpdateMember(MemberDTO member) {
+		System.out.println(member);
+		member.setEmail(member.getEmail());
+		member.setMobile(member.getMobile());
+		member.setAddr(member.getAddr());
+		System.out.println(member);
+		if(dao.adminUpdateMember(member) == 1) {
 			return 1;
 		}else {
 			return 2;
@@ -90,6 +125,23 @@ public class MemberServiceImpl implements IMemberService{
 		}
 	}
 	
+//	@Override
+//	public CartDto bucketCount(CartDto cart) {
+//		System.out.println("cart service");
+//		System.out.println(cart);
+//		MemberDTO member = new MemberDTO();
+//		MemberDTO m = dao.loginMember(member);
+//		System.out.println(m + "이거");
+//		if(m == null) {
+//			return null;
+//		}
+//		
+//		CartDto cartCount = cartDao.selectCount(cart); 
+//		System.out.println(cartCount);
+//		return cartCount;
+//		
+//	}
+	
 
 
 	@Override
@@ -109,6 +161,31 @@ public class MemberServiceImpl implements IMemberService{
 			return null;
 		}
 	}
+	
+	@Override
+	public List<MemberDTO> searchKeywordProc(MemberDTO member) {
+
+		List<MemberDTO> list =  dao.selectList(member);
+		if(list == null) {
+			return null;
+		}else {
+			return list;
+		}
+		
+	}
+	
+	@Override
+	public List<OrderDTO> searchCodeProc(OrderDTO order) {
+		System.out.println("service" + order);
+		List<OrderDTO> orderList =  dao.selectOrderList(order);
+		System.out.println("orderList: " + orderList);
+		if(orderList == null) {
+			return null;
+		}else {
+			return orderList;
+		}
+	}
+
 	
 
 	@Override
@@ -155,6 +232,66 @@ public class MemberServiceImpl implements IMemberService{
 			session.invalidate();
 			return true;
 	}
+
+	@Override
+	public ArrayList<MemberDTO> list() {
+		return dao.list();
+	}
+	@Override
+	public ArrayList<OrderDTO> orderList() {
+		ArrayList<OrderDTO> list = dao.orderList();
+		System.out.println("일단 여긴오지?");
+		System.out.println(list);
+		
+		return list;
+	}
+
+
+	@Override
+	public int adminMemberDelete(String name, MemberDTO member) {
+		System.out.println(name);
+		System.out.println(member.getEmail());
+		System.out.println(member.getPw());
+		if("".equals(name)) {
+			return 0;
+		}
+		MemberDTO m = dao.memberName(name);
+		System.out.println(m + "ㅋㅊㅌ");
+		if(m == null) {
+			return 0;
+		}
+		MemberDTO adminPw = dao.loginMember(member);
+		System.out.println(adminPw + "ㅁㅇ");
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		if(encoder.matches(member.getPw(), adminPw.getPw())) {
+//			String email = m.getEmail();
+			dao.delete(m);
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
+	public int countBoard() {
+		return dao.countBoard();
+	}
+
+	@Override
+	public List<MemberDTO> selectBoard(PagingVO vo) {
+		
+		return dao.selectBoard(vo);
+	}
+
+
+
+
+	
+
+	
+
+	
+
+
 }
 
 	
